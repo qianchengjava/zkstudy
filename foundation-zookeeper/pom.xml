@@ -4,9 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.qc</groupId>
-    <artifactId>foundation-zookeeper</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <artifactId>qc.zk</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>foundation-zookeeper</name>
     <description>foundation-zookeeper</description>
@@ -25,10 +24,10 @@
     </properties>
 
     <dependencies>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -53,10 +52,6 @@
             <version>2.11.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,16 +62,22 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
+
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 
 </project>
