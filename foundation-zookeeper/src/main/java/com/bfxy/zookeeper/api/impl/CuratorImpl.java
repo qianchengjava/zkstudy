@@ -4,32 +4,30 @@ import java.nio.charset.Charset;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+import com.bfxy.zookeeper.api.ChangedEvent;
+import com.bfxy.zookeeper.api.NodeListener;
+import com.bfxy.zookeeper.api.ZookeeperClient;
+import com.google.common.util.concurrent.MoreExecutors;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.PathChildrenCache;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheListener;
-import org.apache.curator.framework.recipes.cache.PathChildrenCache.StartMode;
 import org.apache.curator.retry.RetryNTimes;
 import org.apache.curator.utils.ThreadUtils;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.bfxy.zookeeper.api.ChangedEvent;
-import com.bfxy.zookeeper.api.NodeListener;
-import com.bfxy.zookeeper.api.ZookeeperClient;
-import com.google.common.util.concurrent.MoreExecutors;
-
+@Slf4j
 @ConfigurationProperties(prefix="zookeeper")
 public class CuratorImpl implements ZookeeperClient, InitializingBean {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CuratorImpl.class);
 	
 	private String address;
 	
@@ -79,7 +77,7 @@ public class CuratorImpl implements ZookeeperClient, InitializingBean {
 			.withMode(CreateMode.PERSISTENT)
 			.forPath(path , data.getBytes(Charset.defaultCharset()));			
 		} catch (KeeperException.NodeExistsException e) {
-			LOGGER.warn("Node already exists: {}" , path);
+			log.warn("Node already exists: {}" , path);
 		} catch (Exception e) {
 			throw new Exception("addPersistentNode error", e);
 		}
@@ -120,8 +118,8 @@ public class CuratorImpl implements ZookeeperClient, InitializingBean {
 	@Override
 	public void listener4ChildrenPath(final String parent, final NodeListener listener) throws Exception {
 		PathChildrenCache cache = new PathChildrenCache(this.client, parent, true, false, EVENT_THREAD_POOL);
-		cache.start(StartMode.POST_INITIALIZED_EVENT);
-		LOGGER.info("add listener parent path start, path : {} ", parent);
+		cache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
+		log.info("add listener parent path start, path : {} ", parent);
 		cache.getListenable().addListener(new PathChildrenCacheListener() {
 			@Override
 			public void childEvent(CuratorFramework curator, PathChildrenCacheEvent event) throws Exception {
@@ -152,7 +150,7 @@ public class CuratorImpl implements ZookeeperClient, InitializingBean {
 				this.client.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-				LOGGER.error("zookeeper client is closed error: {}" , e);
+				log.error("zookeeper client is closed error: {}" , e);
 			}
 		}
 	}
