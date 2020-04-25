@@ -5,7 +5,7 @@
 
     <groupId>com.qc</groupId>
     <artifactId>qc.zk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <name>foundation-zookeeper</name>
     <description>foundation-zookeeper</description>

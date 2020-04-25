@@ -23,9 +23,11 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @ConfigurationProperties(prefix="zookeeper")
+@Service
 public class CuratorImpl implements ZookeeperClient, InitializingBean {
 
 	
@@ -117,6 +119,7 @@ public class CuratorImpl implements ZookeeperClient, InitializingBean {
 
 	@Override
 	public void listener4ChildrenPath(final String parent, final NodeListener listener) throws Exception {
+		System.out.println("我是钱铖");
 		PathChildrenCache cache = new PathChildrenCache(this.client, parent, true, false, EVENT_THREAD_POOL);
 		cache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
 		log.info("add listener parent path start, path : {} ", parent);
